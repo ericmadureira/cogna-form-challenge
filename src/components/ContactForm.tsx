@@ -1,12 +1,20 @@
 import React from 'react';
+import styled from 'styled-components';
 
-const ContactForm = () => {
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  width: 70%;
+`;
+
+const Container = () => {
   return (
-    <form action="">
+    <Form>
       <span>Input</span>
       <input type="text"/>
-    </form>
+    </Form>
   );
 }
 
-export default ContactForm;
+export default Container;

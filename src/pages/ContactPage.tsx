@@ -1,12 +1,21 @@
 import React from 'react';
-import ContactForm from '../components/ContactForm';
+import styled from 'styled-components';
 
-const ContactPage = () => {
+import ContactForm from '../components/ContactForm';
+import ContactCallToAction from '../components/ContactCallToAction';
+
+const ContactPage = styled.section`
+  display: flex;
+  margin: 0 7.5%;
+`;
+
+const Container = () => {
   return (
-    <div>
+    <ContactPage>
+      <ContactCallToAction />
       <ContactForm />
-    </div>
+    </ContactPage>
   );
 }
 
-export default ContactPage;
+export default Container;
