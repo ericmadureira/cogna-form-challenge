@@ -1,25 +1,40 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import logo from '../assets/cogna-logo.png';
+
 const ContactCallToAction = styled.section`
   display: flex;
   flex-direction: column;
   justify-content: start;
-  width: 30%;
+  margin-right: 25px;
+  width: 35%;
 `;
 
-const Title = styled.p`
-  display: flex;
-  font-size: 30px;
-  justify-content: start;
+const Hint = styled.span`
+  font-size: 1.5em;
+  margin: 10px 0;
 `;
 
-const Container = () => {
-  return (
-    <ContactCallToAction>
-      <Title>Contact us</Title>
-    </ContactCallToAction>
-  );
-}
+const Logo = styled.img`
+  height: 200px;
+  width: 100%;
+`;
+
+const Title = styled.span`
+  font-size: 3em;
+  margin-top: 10px;
+`;
+
+const Container = () => (
+  <ContactCallToAction>
+    <Title>Contact us</Title>
+    <Hint>Please fill in form on the right to get fast reply</Hint>
+    <Logo
+      src={logo}
+      alt='Cogna logo'
+    />
+  </ContactCallToAction>
+);
 
 export default Container;
