@@ -1,14 +1,16 @@
 import React from 'react';
+import styled from 'styled-components';
 
 import ContactPage from './pages/ContactPage';
-import './App.css';
 
-const App = () => {
-  return (
-    <div className='App'>
-      <ContactPage />
-    </div>
-  );
-}
+const App = styled.section`
+  font-size: 10px;
+`;
 
-export default App;
+const Container = () => (
+  <App className='App'>
+    <ContactPage />
+  </App>
+);
+
+export default Container;
