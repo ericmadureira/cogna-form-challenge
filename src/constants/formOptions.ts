@@ -3,12 +3,17 @@ type ContactSubject = {
   label: string;
 }
 
-type ContactFormValues = {
+export type ContactFormValues = {
   name: string;
   email: string;
   membership: string;
   help: number;
   message: string;
+}
+
+export type UserInfo = {
+  email: string;
+  name: string;
 }
 
 export const contactSubjects: ContactSubject[] = [

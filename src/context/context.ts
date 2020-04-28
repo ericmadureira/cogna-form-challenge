@@ -1,8 +1,10 @@
 import { createContext } from 'react';
 
+import { ContactFormValues, UserInfo } from '../constants/formOptions';
+
 export const Context = createContext({
   userInfo: { email: '', name: '' },
-  setUserInfo: () => {},
+  setUserInfo: (userInfo: UserInfo) => userInfo,
   formValues: {
     name: '',
     email: '',
@@ -10,5 +12,5 @@ export const Context = createContext({
     help: 0,
     message: '',
   },
-  setFormValues: () => {},
+  setFormValues: (formValues: ContactFormValues) => formValues,
 });
