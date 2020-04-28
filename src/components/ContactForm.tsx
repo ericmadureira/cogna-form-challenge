@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
+import { Formik } from 'formik';
 
 import formOptions from '../constants/formOptions';
 
@@ -93,9 +94,9 @@ const Title = styled.h1`
   margin: 10px 0;
 `;
 
-const Container = () => {
+const Container = (): JSX.Element => {
   const { contactSubjects } = formOptions;
-  const subjectOptions = useMemo(() => (
+  const subjectOptions: JSX.Element[] = useMemo(() => (
     contactSubjects
       .map(({ id, label }) => (
         <option key={id} value={id}>{label}</option>
@@ -103,46 +104,63 @@ const Container = () => {
   ), [contactSubjects]);
 
   return (
-    <Form>
-      <Title>Contact Form</Title>
-      <FormField>
-        <FieldLabel>Your Name:</FieldLabel>
-        <TextInput type='text' required />
-      </FormField>
-      <FormField>
-        <FieldLabel>Your Best Email:</FieldLabel>
-        <TextInput type='email' required />
-      </FormField>
-      <FormField>
-        <FieldLabel>Select your membership option:</FieldLabel>
-        <RadioGroup>
-          <input type='radio' name='membership' value='A' />
-          <RadioLabel htmlFor='membership'>Option A</RadioLabel>
-          <input type='radio' name='membership' value='B' />
-          <RadioLabel htmlFor='membership'>Option B</RadioLabel>
-          <input type='radio' name='membership' value='C' />
-          <RadioLabel htmlFor='membership'>Option C</RadioLabel>
-        </RadioGroup>
-      </FormField>
+    <Formik
+      initialValues={{ name: '', email: '', membership: 'A', help: 1, message: '', agreement: false }}
+      onSubmit={(values, { setSubmitting }) => {
+        setTimeout(() => {
+          alert(JSON.stringify(values, null, 2));
+          setSubmitting(false);
+        }, 400);
+      }}
+    >
+      {({ isSubmitting }) => (
+        <Form>
+          <Title>Contact Form</Title>
+          <FormField>
+            <FieldLabel>Your Name:</FieldLabel>
+            <TextInput name='name' type='text' required />
+          </FormField>
 
-      <FormLine />
+          <FormField>
+            <FieldLabel>Your Best Email:</FieldLabel>
+            <TextInput name='email' type='email' required />
+          </FormField>
 
-      <FormField>
-        <FieldLabel>What can we help you with:</FieldLabel>
-        <SelectGroup>
-          {subjectOptions}
-        </SelectGroup>
-      </FormField>
-      <FormField>
-        <FieldLabel>Message:</FieldLabel>
-        <TextArea placeholder='Please type your question here' />
-      </FormField>
-      <CheckboxField>
-        <input type='checkbox' id='termsAgreement' name='termsAgreement' required/>
-        <FieldLabel>I agree to terms and conditions</FieldLabel>
-      </CheckboxField>
-      <SubmitButton type='submit'>Send</SubmitButton>
-    </Form>
+          <FormField>
+            <FieldLabel>Select your membership option:</FieldLabel>
+            <RadioGroup>
+              <input type='radio' name='membership' value='A' />
+              <RadioLabel htmlFor='membership'>Option A</RadioLabel>
+              <input type='radio' name='membership' value='B' />
+              <RadioLabel htmlFor='membership'>Option B</RadioLabel>
+              <input type='radio' name='membership' value='C' />
+              <RadioLabel htmlFor='membership'>Option C</RadioLabel>
+            </RadioGroup>
+          </FormField>
+
+          <FormLine />
+
+          <FormField>
+            <FieldLabel>What can we help you with:</FieldLabel>
+            <SelectGroup name='help'>
+              {subjectOptions}
+            </SelectGroup>
+          </FormField>
+
+          <FormField>
+            <FieldLabel>Message:</FieldLabel>
+            <TextArea name='message' placeholder='Please type your question here' />
+          </FormField>
+
+          <CheckboxField>
+            <input type='checkbox' required/>
+            <FieldLabel>I agree to terms and conditions</FieldLabel>
+          </CheckboxField>
+
+          <SubmitButton type='submit' disabled={isSubmitting}>Send</SubmitButton>
+        </Form>
+      )}
+    </Formik>
   );
 };
 
