@@ -40,6 +40,10 @@ const LoginButton = styled.button`
   }
 `;
 
+const LoginButtonLabel = styled.span`
+  margin-left: 10px;
+`;
+
 const UserInfo = styled.span`
   display: none;
   font-size: 1.5em;
@@ -49,7 +53,10 @@ const Container = () => (
   <Header>
     <Logo />
     <LoginSection>
-      <LoginButton>Log in</LoginButton>
+      <LoginButton>
+        <i className='fas fa-user' />
+        <LoginButtonLabel>Log in</LoginButtonLabel>
+      </LoginButton>
       <UserInfo>Hi, User</UserInfo>
     </LoginSection>
   </Header>

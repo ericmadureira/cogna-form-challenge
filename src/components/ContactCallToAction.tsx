@@ -7,7 +7,7 @@ const ContactCallToAction = styled.section`
   display: flex;
   flex-direction: column;
   justify-content: start;
-  margin-right: 25px;
+  margin-right: 30px;
   width: 35%;
 `;
 
