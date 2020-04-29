@@ -1,8 +1,9 @@
-import React, { useMemo } from 'react';
+import React, { useContext, useMemo } from 'react';
 import styled from 'styled-components';
-import { Formik } from 'formik';
+import { useForm } from 'react-hook-form';
 
-import formOptions from '../constants/formOptions';
+import { contactSubjects, initialContactFormValues } from '../constants/formOptions';
+import { Context } from '../context/context';
 
 const CheckboxField = styled.div`
   display: flex;
@@ -95,72 +96,93 @@ const Title = styled.h1`
 `;
 
 const Container = (): JSX.Element => {
-  const { contactSubjects } = formOptions;
+  const {
+    formValues,
+    setFormValues,
+  } = useContext(Context);
+
   const subjectOptions: JSX.Element[] = useMemo(() => (
     contactSubjects
       .map(({ id, label }) => (
         <option key={id} value={id}>{label}</option>
       ))
-  ), [contactSubjects]);
+  ), []);
+
+  const { membership } = initialContactFormValues;
+
+  const { register, handleSubmit, reset } = useForm();
+  const onSubmit = (data: {}): void => {
+    console.log('SUBMITTED VALUES: ', data);
+    // @ts-ignore
+    setFormValues(data);
+    alert('The form was submitted. Thanks for your contact.');
+    reset();
+  };
 
   return (
-    <Formik
-      initialValues={{ name: '', email: '', membership: 'A', help: 1, message: '', agreement: false }}
-      onSubmit={(values, { setSubmitting }) => {
-        setTimeout(() => {
-          alert(JSON.stringify(values, null, 2));
-          setSubmitting(false);
-        }, 400);
-      }}
-    >
-      {({ isSubmitting }) => (
-        <Form>
-          <Title>Contact Form</Title>
-          <FormField>
-            <FieldLabel>Your Name:</FieldLabel>
-            <TextInput name='name' type='text' required />
-          </FormField>
+    <Form onSubmit={handleSubmit(onSubmit)}>
+      <Title>Contact Form</Title>
+      <FormField>
+        <FieldLabel>Your Name:</FieldLabel>
+        <TextInput name='name' type='text' required ref={register} />
+      </FormField>
 
-          <FormField>
-            <FieldLabel>Your Best Email:</FieldLabel>
-            <TextInput name='email' type='email' required />
-          </FormField>
+      <FormField>
+        <FieldLabel>Your Best Email:</FieldLabel>
+        <TextInput name='email' type='email' required ref={register} />
+      </FormField>
 
-          <FormField>
-            <FieldLabel>Select your membership option:</FieldLabel>
-            <RadioGroup>
-              <input type='radio' name='membership' value='A' />
-              <RadioLabel htmlFor='membership'>Option A</RadioLabel>
-              <input type='radio' name='membership' value='B' />
-              <RadioLabel htmlFor='membership'>Option B</RadioLabel>
-              <input type='radio' name='membership' value='C' />
-              <RadioLabel htmlFor='membership'>Option C</RadioLabel>
-            </RadioGroup>
-          </FormField>
+      <FormField>
+        <FieldLabel>Select your membership option:</FieldLabel>
+        <RadioGroup>
+          <input
+            type='radio'
+            name='membership'
+            value='A'
+            defaultChecked={(membership === 'A')}
+            ref={register}
+          />
+          <RadioLabel htmlFor='membership'>Option A</RadioLabel>
+          <input
+            type='radio'
+            name='membership'
+            value='B'
+            defaultChecked={(membership === 'B')}
+            ref={register}
+          />
+          <RadioLabel htmlFor='membership'>Option B</RadioLabel>
+          <input
+            type='radio'
+            name='membership'
+            value='C'
+            defaultChecked={(membership === 'C')}
+            ref={register}
+          />
+          <RadioLabel htmlFor='membership'>Option C</RadioLabel>
+        </RadioGroup>
+      </FormField>
 
-          <FormLine />
+      <FormLine />
 
-          <FormField>
-            <FieldLabel>What can we help you with:</FieldLabel>
-            <SelectGroup name='help'>
-              {subjectOptions}
-            </SelectGroup>
-          </FormField>
+      <FormField>
+        <FieldLabel>What can we help you with:</FieldLabel>
+        <SelectGroup name='help' ref={register}>
+          {subjectOptions}
+        </SelectGroup>
+      </FormField>
 
-          <FormField>
-            <FieldLabel>Message:</FieldLabel>
-            <TextArea name='message' placeholder='Please type your question here' />
-          </FormField>
+      <FormField>
+        <FieldLabel>Message:</FieldLabel>
+        <TextArea name='message' placeholder='Please type your question here' ref={register} />
+      </FormField>
 
-          <CheckboxField>
-            <input type='checkbox' required/>
-            <FieldLabel>I agree to terms and conditions</FieldLabel>
-          </CheckboxField>
+      <CheckboxField>
+        <input type='checkbox' required/>
+        <FieldLabel>I agree to terms and conditions</FieldLabel>
+      </CheckboxField>
 
-          <SubmitButton type='submit' disabled={isSubmitting}>Send</SubmitButton>
-        </Form>
-      )}
-    </Formik>
+      <SubmitButton type='submit'>Send</SubmitButton>
+    </Form>
   );
 };
 

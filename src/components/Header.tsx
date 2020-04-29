@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
 
+import { Context } from '../context/context';
 import logo from '../assets/cogna-logo.png';
+import { initialUserInfo } from '../mock/userInfo';
 
 const Header = styled.header`
   align-items: center;
@@ -45,21 +47,34 @@ const LoginButtonLabel = styled.span`
 `;
 
 const UserInfo = styled.span`
-  display: none;
   font-size: 1.5em;
 `;
 
-const Container = () => (
-  <Header>
-    <Logo />
-    <LoginSection>
-      <LoginButton>
-        <i className='fas fa-user' />
-        <LoginButtonLabel>Log in</LoginButtonLabel>
-      </LoginButton>
-      <UserInfo>Hi, User</UserInfo>
-    </LoginSection>
-  </Header>
-);
+const Container = () => {
+  const {
+    userInfo: { name },
+    setUserInfo,
+  } = useContext(Context);
+
+  const [logged, setLogged] = useState(false);
+
+  const handleLogin = () => {
+    setUserInfo(initialUserInfo);
+    setLogged(true);
+  };
+
+  return (
+    <Header>
+      <Logo />
+      <LoginSection>
+        { !logged && <LoginButton onClick={() => handleLogin()}>
+          <i className='fas fa-user' />
+          <LoginButtonLabel>Log in</LoginButtonLabel>
+        </LoginButton> }
+        { logged && <UserInfo>Hi, {name}</UserInfo> }
+      </LoginSection>
+    </Header>
+  );
+};
 
 export default Container;
