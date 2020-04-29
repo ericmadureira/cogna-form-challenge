@@ -96,10 +96,8 @@ const Title = styled.h1`
 `;
 
 const Container = (): JSX.Element => {
-  const {
-    formValues,
-    setFormValues,
-  } = useContext(Context);
+  const { setFormValues, userInfo } = useContext(Context);
+  const { name, email, logged } = userInfo;
 
   const subjectOptions: JSX.Element[] = useMemo(() => (
     contactSubjects
@@ -119,17 +117,20 @@ const Container = (): JSX.Element => {
     reset();
   };
 
+  const defaultEmail: string = (logged && email) || '';
+  const defaultName: string = (logged && name) || '';
+
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <Title>Contact Form</Title>
       <FormField>
         <FieldLabel>Your Name:</FieldLabel>
-        <TextInput name='name' type='text' required ref={register} />
+        <TextInput name='name' type='text' required ref={register} defaultValue={defaultName} />
       </FormField>
 
       <FormField>
         <FieldLabel>Your Best Email:</FieldLabel>
-        <TextInput name='email' type='email' required ref={register} />
+        <TextInput name='email' type='email' required ref={register} defaultValue={defaultEmail} />
       </FormField>
 
       <FormField>
