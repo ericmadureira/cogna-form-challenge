@@ -1,9 +1,8 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 
 import { Context } from '../context/context';
 import logo from '../assets/cogna-logo.png';
-import { initialUserInfo } from '../mock/userInfo';
 
 const Header = styled.header`
   align-items: center;
@@ -52,15 +51,13 @@ const UserInfo = styled.span`
 
 const Container = () => {
   const {
-    userInfo: { name },
+    userInfo,
     setUserInfo,
   } = useContext(Context);
-
-  const [logged, setLogged] = useState(false);
+  const { name, logged } = userInfo;
 
   const handleLogin = () => {
-    setUserInfo(initialUserInfo);
-    setLogged(true);
+    setUserInfo({ ...userInfo, logged: true });
   };
 
   return (
