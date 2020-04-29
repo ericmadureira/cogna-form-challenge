@@ -14,6 +14,7 @@ export type ContactFormValues = {
 export type UserInfo = {
   email: string;
   name: string;
+  logged: boolean;
 }
 
 export const contactSubjects: ContactSubject[] = [
